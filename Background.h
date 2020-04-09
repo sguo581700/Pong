@@ -74,7 +74,7 @@ public:
 		t0=t1;
 		pre_ticks=clock();
 		this->handle_event(e);
-		ball->ball_move(this->player_one->get_bat(), dt);
+		ball->ball_move(this->player_one->get_bat(), dt, player_one);
 		this->draw();
 		}
     }
@@ -99,12 +99,13 @@ public:
 			this->render_text(i*this->get_text_width(), 0, this->player_one->set_name(s[i])+"     ");
 			this->render_text(i*this->get_text_width(),this->get_text_height(), "scores:"+to_string(this->player_one->get_score())+"  ");
 		    }*/
-		   // this->render_text(this->get_screen_width()-this->get_text_width(),0, "FPS: "+to_string(this->get_fps(pre_ticks)));
+		    this->render_text(this->get_screen_width()-this->get_text_width(),0, "chances: "+to_string(this->player_one->get_chances()));
 		}
 			
     clock_t get_fps(clock_t x){
     	return CLOCKS_PER_SEC/(clock()-x);
     }
+    
     void draw_bat_rect(int x, int y){
     	SDL_SetRenderDrawColor(this->get_renderer(),0x00,0x00,0x00,0x00); 
 		SDL_RenderDrawRect(this->get_renderer(), this->player_one->get_bat()->bat_rect(x,y));
@@ -126,7 +127,6 @@ public:
 		window = NULL;
 		SDL_DestroyRenderer(renderer);
 		renderer=NULL;
-		
 		TTF_Quit();
 		IMG_Quit();
 		SDL_Quit();

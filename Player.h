@@ -10,20 +10,21 @@ using namespace std;
 class Player{
 private:
 	string name;
-	int lives;
+	int chances;
 	int scores;
     Bat*bat = nullptr;
  
 public:
 	Player(){
-		lives=3;
+		chances=3;
 		scores=0;
 	    bat = new Bat();
 	}
 	string set_name(string name){this->name = name; return this->name;}
-	int get_lives(){return lives;}
+	void set_score(){scores++;}
+	int get_chances(){return chances;}
 	int get_score(){return scores;}
-	
+	void lose_chances(){chances--;}
 	Bat*get_bat(){return bat;}
     
 };
