@@ -16,29 +16,32 @@ private:
 	int ball_height;
 	int ball_pos_x;
 	int ball_pos_y;
-	float ball_v_x = 0.2;
-	float ball_v_y = 0.2;
+	float ball_v_x = 0.1;
+	float ball_v_y = 0.1;
 	bool collision_detected = false;
+	SDL_Rect*r =nullptr;
 public:
 	Ball(){
 		ball_width = SCREEN_WIDTH/100;
 		ball_height= SCREEN_HEIGHT/100;
 		ball_pos_x=SCREEN_WIDTH/2;
 		ball_pos_y=0;
+		r = new SDL_Rect();
 	}
-
+	~Ball(){
+		delete r;
+	}
 	SDL_Rect*ball_rect(int x, int y){
-		SDL_Rect*r=new SDL_Rect();
-		r->x = x;
-		r->y = y;
-		r->w = ball_width;
-		r->h = ball_height;
+		this->r->x = x;
+		this->r->y = y;
+		this->r->w = ball_width;
+		this->r->h = ball_height;
 		return r;
 	}
-	void ball_move(Bat*bat, float dt, Player*player){
+	void ball_move(Bat*bat, int dt, Player*player){
 		ball_pos_y+=ball_v_y*dt;
 		ball_pos_x+=ball_v_x*dt;
-		if(ball_pos_x>this->get_screen_width()-this->get_ball_width()){
+		if(ball_pos_x>(this->get_screen_width()-this->get_ball_width())){
 			velocityX_reversed();
 		}
 		if(ball_pos_x<0){

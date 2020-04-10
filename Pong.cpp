@@ -8,10 +8,11 @@
 #include<time.h>
 
 #include"Player.h"
+#include"GameEngine.h"
 using namespace std;
 
+
 int main(){
-	Background bg;
-	bg.run();
-    bg.clean();
+	GameEngine gameEngine;
+	gameEngine.run();
 }

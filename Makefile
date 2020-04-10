@@ -3,7 +3,7 @@ COMPILER_FLAGS = -Wall
 SDL2 = -framework SDL2 -framework SDL2_image -framework SDL2_ttf
 LINKER_FLAGS = $(SDL2) -F /Library/Frameworks -I /Library/Frameworks/SDL2.framework/Versions/A/Headers
 OBJ = Pong.cpp
-DEPS = Ball.h Bat.h Background.h Player.h 
+DEPS = Ball.h Bat.h Background.h Player.h GameEngine.h
 OBJ_NAME = Pong
 
 all: $(OBJ) $(DEPS)

@@ -19,19 +19,23 @@ private:
 	int bat_pos_y;
 	int bat_v_x = 40;
 	int bat_v_y = 40;
+	SDL_Rect*r=nullptr;
 public:
 	Bat(){
 		bat_width = SCREEN_WIDTH/10;
 		bat_height= SCREEN_HEIGHT/60;
 		bat_pos_x=(SCREEN_WIDTH-bat_width)/2;
 		bat_pos_y=this->get_screen_height()-this->get_bat_height();
+		r=new SDL_Rect();
+	}
+	~Bat(){
+		delete r;
 	}
 	SDL_Rect*bat_rect(int x, int y){
-		SDL_Rect*r=new SDL_Rect();
-		r->x = x;
-		r->y = y;
-		r->w = bat_width;
-		r->h = bat_height;
+		this->r->x = x;
+		this->r->y = y;
+		this->r->w = bat_width;
+		this->r->h = bat_height;
 		return r;
 	}
 

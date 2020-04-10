@@ -20,6 +20,9 @@ public:
 		scores=0;
 	    bat = new Bat();
 	}
+	~Player(){
+		delete bat;
+	}
 	string set_name(string name){this->name = name; return this->name;}
 	void set_score(){scores++;}
 	int get_chances(){return chances;}

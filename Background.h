@@ -20,13 +20,13 @@ private:
 	TTF_Font*font = NULL;
 	SDL_Surface*text_surface = NULL;
 	SDL_Texture*texture = NULL;
-	bool running=true;
-	clock_t pre_ticks;
-	Player*player_one=nullptr;
-	Ball*ball = nullptr;
-	int t0;
-	int t1;
-	int dt;
+	//bool running=true;
+	//clock_t pre_ticks;
+	//Player*player_one=nullptr;
+	//Ball*ball = nullptr;
+	//int t0;
+	//int t1;
+	//int dt;
 	
 public:
 	Background(){
@@ -38,8 +38,14 @@ public:
     	font = TTF_OpenFont("/Library/Fonts/Comic Sans MS Bold.ttf",64);
 		text_width = screen_width/10;
 		text_height = screen_height/30;
-		player_one = new Player();
-		ball = new Ball();
+		//player_one = new Player();
+		//ball = new Ball();
+	}
+
+	~Background(){
+		//delete player_one;
+		//delete ball;
+		this->clean();
 	}
 	void render_text(int x, int y, string s){
 			SDL_Rect r;
@@ -59,13 +65,13 @@ public:
     int get_text_width(){return text_width;}
     int get_text_height(){return text_height;}
 
-    void handle_event(SDL_Event& e){
+   /* void handle_event(SDL_Event& e){
     	while(SDL_PollEvent(&e)!=0){
 			(e.type==SDL_QUIT)?running=false:true;
 			this->player_one->get_bat()->bat_handle_event(e);
 		}
-    }
-    void run(){
+    }*/
+   /* void run(){
 		SDL_Event e;	
 		 t0 = SDL_GetTicks();
 	while(running){
@@ -77,41 +83,40 @@ public:
 		ball->ball_move(this->player_one->get_bat(), dt, player_one);
 		this->draw();
 		}
-    }
-    void draw(){
+    }*/
+    void draw(Player*player_one, Ball*ball){
     	SDL_SetRenderDrawColor(this->get_renderer(),0xff,0xff,0xff,0xff); 
 		SDL_RenderClear(this->get_renderer());
-		draw_text();
-		draw_bat_rect(player_one->get_bat()->get_bat_pos_x(), player_one->get_bat()->get_bat_pos_y());
-		draw_ball_rect(ball->get_ball_pos_x(), ball->get_ball_pos_y());
+		draw_text(player_one);
+		draw_bat_rect(player_one, player_one->get_bat()->get_bat_pos_x(), player_one->get_bat()->get_bat_pos_y());
+		draw_ball_rect(ball, ball->get_ball_pos_x(), ball->get_ball_pos_y());
 		SDL_RenderPresent(this->get_renderer());
-
     }
 
     
-    void draw_text(){
+    void draw_text(Player*player_one){
     	
     	//string s[]{"ONE","TWO","THREE","FOUR"};
     		string s="ONE";
-    		this->render_text(0, 0, this->player_one->set_name(s)+"     ");
-			this->render_text(0,this->get_text_height(), "scores:"+to_string(this->player_one->get_score())+"  ");
+    		this->render_text(0, 0, player_one->set_name(s)+"     ");
+			this->render_text(0,this->get_text_height(), "scores:"+to_string(player_one->get_score())+"  ");
 		/*for(int i=0; i<sizeof(s)/sizeof(string);++i){
 			this->render_text(i*this->get_text_width(), 0, this->player_one->set_name(s[i])+"     ");
 			this->render_text(i*this->get_text_width(),this->get_text_height(), "scores:"+to_string(this->player_one->get_score())+"  ");
 		    }*/
-		    this->render_text(this->get_screen_width()-this->get_text_width(),0, "chances: "+to_string(this->player_one->get_chances()));
+		    this->render_text(this->get_screen_width()-this->get_text_width(),0, "chances: "+to_string(player_one->get_chances()));
 		}
 			
-    clock_t get_fps(clock_t x){
+        clock_t get_fps(clock_t x){
     	return CLOCKS_PER_SEC/(clock()-x);
     }
     
-    void draw_bat_rect(int x, int y){
+    void draw_bat_rect(Player*player_one, int x, int y){
     	SDL_SetRenderDrawColor(this->get_renderer(),0x00,0x00,0x00,0x00); 
-		SDL_RenderDrawRect(this->get_renderer(), this->player_one->get_bat()->bat_rect(x,y));
-		SDL_RenderFillRect(this->get_renderer(), this->player_one->get_bat()->bat_rect(x,y));
+		SDL_RenderDrawRect(this->get_renderer(), player_one->get_bat()->bat_rect(x,y));
+		SDL_RenderFillRect(this->get_renderer(), player_one->get_bat()->bat_rect(x,y));
     }
-    void draw_ball_rect(int x, int y){
+    void draw_ball_rect(Ball*ball, int x, int y){
     	SDL_SetRenderDrawColor(this->get_renderer(),0x00,0x00,0x00,0x00); 
     	SDL_RenderDrawRect(this->get_renderer(), ball->ball_rect(x,y));
     	SDL_RenderFillRect(this->get_renderer(), ball->ball_rect(x,y));
