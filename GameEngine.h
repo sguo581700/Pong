@@ -4,7 +4,7 @@
 
 #include<iostream>
 #include<SDL2/SDL.h>
-#include<SDL2_image/SDL_image.h>
+#include<SDL2/SDL_image.h>
 #include<SDL2/SDL_ttf.h>
 #include"Background.h"
 #include"Ball.h"
@@ -18,6 +18,7 @@ private:
 		Player*player_one=nullptr;
 		Ball*ball = nullptr;
 		Background*bg = nullptr;
+		Bat*bat=nullptr;
 		int t0;
 		int t1;
 		int dt;
@@ -29,17 +30,20 @@ public:
 		player_one = new Player();
 		ball = new Ball();
 		bg = new Background();
+		bat = new Bat();
 	}
 	~GameEngine(){
 		delete player_one;
 		delete ball;
 		delete bg;
+		delete bat;
 	}
 
 	void handle_event(SDL_Event& e){
     	while(SDL_PollEvent(&e)!=0){
 			(e.type==SDL_QUIT)?running=false:true;
-			this->player_one->get_bat()->bat_handle_event(e);
+			//this->player_one->get_bat()->bat_handle_event(e);
+			bat->bat_handle_event(e);
 		}
     }
     void run(){
@@ -51,8 +55,9 @@ public:
 			t0=t1;
 			pre_ticks=clock();
 			this->handle_event(e);
-			this->ball->ball_move(this->player_one->get_bat(), dt, player_one);
-			this->bg->draw(player_one, ball);
+			//this->ball->ball_move(this->player_one->get_bat(), dt, player_one);
+			ball->ball_move(bat, dt, player_one);
+			this->bg->draw(player_one, bat, ball);
 		}
     }
 
