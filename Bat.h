@@ -17,15 +17,18 @@ private:
 	int bat_height;
 	int bat_pos_x;
 	int bat_pos_y;
-	int bat_v_x = 40;
-	int bat_v_y = 40;
+	float bat_v_y;
+	float BAT_VEL =15.0;
 	SDL_Rect*r=nullptr;
+
 public:
-	Bat(){
-		bat_width = SCREEN_WIDTH/10;
-		bat_height= SCREEN_HEIGHT/60;
-		bat_pos_x=(SCREEN_WIDTH-bat_width)/2;
-		bat_pos_y=this->get_screen_height()-this->get_bat_height();
+	Bat(int x, int y){
+
+		bat_width = SCREEN_WIDTH/60;
+		bat_height= SCREEN_HEIGHT/8;
+		bat_pos_x=x;
+		bat_pos_y=y;
+		bat_v_y=0;
 		r=new SDL_Rect();
 	}
 	~Bat(){
@@ -39,22 +42,31 @@ public:
 		return r;
 	}
 
-	void bat_move(clock_t x){
-		bat_pos_x += bat_v_x/x;
-		if(bat_pos_x<0||bat_pos_x+this->get_bat_width()>this->get_screen_width()){
-			bat_pos_x-= bat_v_x/x;
-		}
-		bat_pos_y +=bat_v_y;
-		if(bat_pos_y<0||bat_pos_y+this->get_bat_height()>this->get_screen_height()){
-			bat_pos_y-= bat_v_y;
-		}
-	}
-	void bat_handle_event(SDL_Event& e){
-		if(e.type==SDL_KEYDOWN){
-			if(e.key.keysym.sym==SDLK_LEFT){bat_pos_x -= bat_v_x; if(bat_pos_x<=0){bat_pos_x=0;}}
-			else if(e.key.keysym.sym==SDLK_RIGHT){bat_pos_x += bat_v_x;if(bat_pos_x>=this->get_screen_width()-this->get_bat_width()){bat_pos_x=this->get_screen_width()-this->get_bat_width();}}
+	
+	void bat_R_handle_event(SDL_Event& e){
+		if(e.type==SDL_KEYDOWN && e.key.repeat==0){
+			if(e.key.keysym.sym==SDLK_UP){bat_v_y -= BAT_VEL; }
+			else if(e.key.keysym.sym==SDLK_DOWN){bat_v_y += BAT_VEL;}
+		}else if(e.type==SDL_KEYUP){
+			if(e.key.keysym.sym==SDLK_UP){bat_v_y += BAT_VEL; }
+			else if(e.key.keysym.sym==SDLK_DOWN){bat_v_y -= BAT_VEL;}
 		}
 	}
+	void bat_L_handle_event(SDL_Event& e){
+		if(e.type==SDL_KEYDOWN && e.key.repeat == 0){
+			if(e.key.keysym.sym==SDLK_w){bat_v_y -= BAT_VEL; }
+			else if(e.key.keysym.sym==SDLK_s){bat_v_y += BAT_VEL;}
+		}else if(e.type==SDL_KEYUP){
+			if(e.key.keysym.sym==SDLK_w){bat_v_y += BAT_VEL; }
+			else if(e.key.keysym.sym==SDLK_s){bat_v_y -= BAT_VEL;}
+		}
+	}
+	void bat_move(){
+		bat_pos_y+=bat_v_y;
+		if(bat_pos_y<=0){bat_pos_y=0;}
+		if(bat_pos_y>=SCREEN_HEIGHT-bat_height){bat_pos_y=SCREEN_HEIGHT-bat_height;}
+	}
+	
 	int get_bat_width(){return bat_width;}
 	int get_bat_height(){return bat_height;}
 	int get_screen_width(){return SCREEN_WIDTH;}

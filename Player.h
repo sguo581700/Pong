@@ -10,26 +10,17 @@ using namespace std;
 class Player{
 private:
 	string name;
-	int chances;
 	int scores;
-    //Bat*bat = nullptr;
  
 public:
 	Player(){
-		chances=3;
 		scores=0;
-	    //bat = new Bat();
 	}
 	~Player(){
-		//delete bat;
 	}
 	string set_name(string name){this->name = name; return this->name;}
 	void set_score(){scores++;}
-	int get_chances(){return chances;}
-	int get_score(){return scores;}
-	void lose_chances(){chances--;}
-	//Bat*get_bat(){return bat;}
-    
+	int get_score(){return scores;}    
 };
 
 #endif

@@ -16,9 +16,11 @@ using namespace std;
 class GameEngine{
 private:
 		Player*player_one=nullptr;
+		Player*player_two=nullptr;
 		Ball*ball = nullptr;
 		Background*bg = nullptr;
-		Bat*bat=nullptr;
+		Bat*bat_R=nullptr;
+		Bat*bat_L=nullptr;
 		int t0;
 		int t1;
 		int dt;
@@ -28,22 +30,26 @@ private:
 public:
 	GameEngine(){
 		player_one = new Player();
+		player_two = new Player();
+
 		ball = new Ball();
 		bg = new Background();
-		bat = new Bat();
+		bat_R = new Bat(SCREEN_WIDTH-(SCREEN_WIDTH/60)*4, (SCREEN_HEIGHT-SCREEN_HEIGHT/8)/2);
+		bat_L = new Bat((SCREEN_WIDTH/60)*3,(SCREEN_HEIGHT-SCREEN_HEIGHT/8)/2);
 	}
 	~GameEngine(){
 		delete player_one;
+		delete player_two;
 		delete ball;
 		delete bg;
-		delete bat;
+		delete bat_R;
 	}
 
 	void handle_event(SDL_Event& e){
     	while(SDL_PollEvent(&e)!=0){
 			(e.type==SDL_QUIT)?running=false:true;
-			//this->player_one->get_bat()->bat_handle_event(e);
-			bat->bat_handle_event(e);
+			bat_R->bat_R_handle_event(e);
+			bat_L->bat_L_handle_event(e);
 		}
     }
     void run(){
@@ -55,12 +61,12 @@ public:
 			t0=t1;
 			pre_ticks=clock();
 			this->handle_event(e);
-			//this->ball->ball_move(this->player_one->get_bat(), dt, player_one);
-			ball->ball_move(bat, dt, player_one);
-			this->bg->draw(player_one, bat, ball);
+			bat_R->bat_move();
+			bat_L->bat_move();
+			ball->ball_move(bat_R, bat_L, dt, player_one, player_two);
+			this->bg->draw(player_one, player_two, bat_R, bat_L, ball);
 		}
     }
-
 };
 
 #endif
