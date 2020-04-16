@@ -9,20 +9,20 @@
 #include<SDL2/SDL_ttf.h>
 #include "Background.h"
 using namespace std;
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const double SCREEN_WIDTH = 800;
+const double SCREEN_HEIGHT = 600;
 class Bat{
 private:
-	int bat_width;
-	int bat_height;
-	int bat_pos_x;
-	int bat_pos_y;
-	float bat_v_y;
-	float BAT_VEL =15.0;
+	double bat_width;
+	double bat_height;
+	double bat_pos_x;
+	double bat_pos_y;
+	double bat_v_y;
+	double BAT_VEL =15;
 	SDL_Rect*r=nullptr;
 
 public:
-	Bat(int x, int y){
+	Bat(double x, double y){
 
 		bat_width = SCREEN_WIDTH/60;
 		bat_height= SCREEN_HEIGHT/8;
@@ -34,7 +34,7 @@ public:
 	~Bat(){
 		delete r;
 	}
-	SDL_Rect*bat_rect(int x, int y){
+	SDL_Rect*bat_rect(double x, double y){
 		this->r->x = x;
 		this->r->y = y;
 		this->r->w = bat_width;
@@ -63,15 +63,15 @@ public:
 	}
 	void bat_move(){
 		bat_pos_y+=bat_v_y;
-		if(bat_pos_y<=0){bat_pos_y=0;}
-		if(bat_pos_y>=SCREEN_HEIGHT-bat_height){bat_pos_y=SCREEN_HEIGHT-bat_height;}
+		if(bat_pos_y<=bat_width){bat_pos_y=bat_width;}
+		if(bat_pos_y>=SCREEN_HEIGHT-bat_height-bat_width){bat_pos_y=SCREEN_HEIGHT-bat_height-bat_width;}
 	}
 	
-	int get_bat_width(){return bat_width;}
-	int get_bat_height(){return bat_height;}
-	int get_screen_width(){return SCREEN_WIDTH;}
-	int get_screen_height(){return SCREEN_HEIGHT;}
-	int get_bat_pos_x(){return bat_pos_x;}
-	int get_bat_pos_y(){return bat_pos_y;}
+	double get_bat_width(){return bat_width;}
+	double get_bat_height(){return bat_height;}
+	double get_screen_width(){return SCREEN_WIDTH;}
+	double get_screen_height(){return SCREEN_HEIGHT;}
+	double get_bat_pos_x(){return bat_pos_x;}
+	double get_bat_pos_y(){return bat_pos_y;}
 };
 #endif 

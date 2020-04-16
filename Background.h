@@ -11,8 +11,8 @@
 using namespace std;
 class Background{
 private:
-	int screen_width;
-	int screen_height;
+	double screen_width;
+	double screen_height;
 	SDL_Window*window=NULL;
 	SDL_Renderer*renderer=NULL;
 	int text_width;
@@ -58,8 +58,8 @@ public:
 			text_height = 0;
 		}
 	}
-	int get_screen_width(){return screen_width;}
-	int get_screen_height(){return screen_height;}
+	double get_screen_width(){return screen_width;}
+	double get_screen_height(){return screen_height;}
     int get_text_width(){return text_width;}
     int get_text_height(){return text_height;}
 
@@ -87,12 +87,12 @@ public:
     	return CLOCKS_PER_SEC/(clock()-x);
     }
     
-    void draw_bat_rect(Bat*bat, int x, int y){
+    void draw_bat_rect(Bat*bat, double x, double y){
     	SDL_SetRenderDrawColor(renderer,0x00,0x00,0x00,0x00); 
 		SDL_RenderDrawRect(renderer, bat->bat_rect(x,y));
 		SDL_RenderFillRect(renderer, bat->bat_rect(x,y));
     }
-    void draw_ball_rect(Ball*ball, int x, int y){
+    void draw_ball_rect(Ball*ball, double x, double y){
     	SDL_SetRenderDrawColor(renderer,0x00,0x00,0x00,0x00); 
     	SDL_RenderDrawRect(renderer, ball->ball_rect(x,y));
     	SDL_RenderFillRect(renderer, ball->ball_rect(x,y));

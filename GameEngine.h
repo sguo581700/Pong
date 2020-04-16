@@ -21,10 +21,9 @@ private:
 		Background*bg = nullptr;
 		Bat*bat_R=nullptr;
 		Bat*bat_L=nullptr;
-		int t0;
-		int t1;
-		int dt;
-		clock_t pre_ticks;
+		double t0;
+		double t1;
+		double dt;
 		bool running=true;
 
 public:
@@ -59,7 +58,6 @@ public:
 			t1=SDL_GetTicks();
 			dt=t1-t0;
 			t0=t1;
-			pre_ticks=clock();
 			this->handle_event(e);
 			bat_R->bat_move();
 			bat_L->bat_move();
